@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Katify</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="katify_logo">Katify Logo</string>
+    <string name="login_page_text">Hey welcome, login to start your kanban!</string>
+    <string name="account_name_default">Account name</string>
+    <string name="email_default">email@gmail.com</string>
+    <string name="add_kanban_button">Add Kanban button</string>
+    <string name="profile_icon">Profile icon</string>
+</resources>
