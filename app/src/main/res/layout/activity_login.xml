@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="70dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".LoginActivity"
+    tools:context=".view.LoginActivity"
     android:background="@color/pink_gray_900">
 
     <ImageView
@@ -28,11 +28,15 @@
         android:layout_height="wrap_content"
         android:text="@string/login_page_text"
         android:textColor="@color/gray_200"
+        android:fontFamily="@font/inter_light"
+        android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@id/login_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
+
+
 
     <Button
         android:id="@+id/google_login_btn"
@@ -41,7 +45,7 @@
         android:layout_centerInParent="true"
         android:backgroundTint="@color/pink_100"
         android:drawableLeft="@drawable/ic_google_logo"
-        android:text="Sign in with Google"
+        android:text="@string/sign_in_google_btn"
         android:textAllCaps="false"
         android:textColor="@color/pink_gray_400"
         app:layout_constraintBottom_toBottomOf="parent"
