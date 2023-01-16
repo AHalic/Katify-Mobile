@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "126746744998",
+    "project_id": "katify-e7308",
+    "storage_bucket": "katify-e7308.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126746744998:android:73c2b0f2b968c6dce17c67",
+        "android_client_info": {
+          "package_name": "com.example.katify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126746744998-96svpg27bc7lbv4uh74af99c2bkd4e18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDH_LzKREFGqC7l8cD6CHrTG6UfOhVjQuA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126746744998-96svpg27bc7lbv4uh74af99c2bkd4e18.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
