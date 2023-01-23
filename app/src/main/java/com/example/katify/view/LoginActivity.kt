@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -49,17 +48,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         loginVM = ViewModelProvider(this).get(LoginViewModel::class.java)
     }
 
-    override fun onStart() {
-        super.onStart()
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-
-        if (account != null) {
-            getGoogleAuthCredential(account)
-        }
-    }
 
     override fun onClick(v: View?) {
-        println(v)
         if (v!!.id == R.id.google_login_btn) {
             openSomeActivityForResult()
         }
@@ -117,20 +107,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         loginVM.createUser(authenticatedUser)
         loginVM.createdUserLiveData.observe(this) { user ->
             if (user.isCreated) {
-                toastMessage(user.name)
                 goToKanbansActivity(user)
             }
         }
     }
 
-    private fun toastMessage(name: String) {
-        Toast.makeText(this, "Hi $name!\nYour account was successfully created.", Toast.LENGTH_LONG)
-            .show()
-    }
-
     private fun goToKanbansActivity(user: User) {
         val intent = Intent(this, KanbansPageActivity::class.java)
-        Log.w("icon", user.urlImage)
         intent.putExtra("user", user)
         startActivity(intent)
     }
