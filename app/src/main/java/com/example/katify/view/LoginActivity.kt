@@ -9,7 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.katify.R
-import com.example.katify.data.User
+import com.example.katify.data.model.User
 import com.example.katify.databinding.ActivityLoginBinding
 import com.example.katify.viewModel.LoginViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn

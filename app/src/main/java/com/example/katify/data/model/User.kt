@@ -1,4 +1,4 @@
-package com.example.katify.data
+package com.example.katify.data.model
 
 import java.io.Serializable
 

@@ -2,6 +2,7 @@ package com.example.katify.data
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.katify.data.model.User
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
@@ -31,7 +32,6 @@ internal class LoginRepository {
                         val name = firebaseUser.displayName
                         val email = firebaseUser.email
                         val photo = firebaseUser.photoUrl
-                        Log.w("icon", photo.toString())
                         val user = User(
                             uid,
                             name!!,

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.AuthCredential
 import com.example.katify.data.LoginRepository
-import com.example.katify.data.User
+import com.example.katify.data.model.User
 
 class LoginViewModel : ViewModel() {
     private var authRepository: LoginRepository = LoginRepository()
