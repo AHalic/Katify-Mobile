@@ -5,16 +5,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.katify.data.model.Kanban
 import com.example.katify.databinding.CardKanbanBinding
+import com.example.katify.view.listener.OnKanbanListener
 import com.example.katify.view.viewHolder.KanbanViewHolder
 
 class KanbanAdapter : RecyclerView.Adapter<KanbanViewHolder>() {
 
     private var kanbanList: List<Kanban> = listOf()
+    private lateinit var listener: OnKanbanListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KanbanViewHolder {
         val item = CardKanbanBinding.inflate(LayoutInflater.from(parent.context),
             parent,false)
-        return KanbanViewHolder(item)
+        return KanbanViewHolder(item, listener)
     }
 
     override fun onBindViewHolder(holder: KanbanViewHolder, position: Int) {
@@ -28,6 +30,10 @@ class KanbanAdapter : RecyclerView.Adapter<KanbanViewHolder>() {
     fun updateProdList(list: List<Kanban>) {
         kanbanList = list
         notifyDataSetChanged()
+    }
+
+    fun setListener(productListener: OnKanbanListener) {
+        listener = productListener
     }
 
 }

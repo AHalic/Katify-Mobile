@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -19,6 +20,7 @@ import com.example.katify.data.model.User
 import com.example.katify.databinding.ActivityKanbansPageBinding
 import com.example.katify.utils.Constants
 import com.example.katify.view.adapter.KanbanAdapter
+import com.example.katify.view.listener.OnKanbanListener
 import com.example.katify.viewModel.KanbanViewModel
 import com.squareup.picasso.Picasso
 
@@ -54,6 +56,13 @@ class KanbansPageActivity : AppCompatActivity(), View.OnClickListener {
         setObserver()
 
         binding.addKanbanBtn.setOnClickListener(this)
+
+        val listener = object : OnKanbanListener {
+            override fun onClick(kanban: Kanban) {
+                goToSelectedKanbanActivity(kanban)
+            }
+        }
+        adapter.setListener(listener)
     }
 
     override fun onClick(view: View) {
@@ -64,6 +73,12 @@ class KanbansPageActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun getUserFromIntent(): User {
         return intent.getSerializableExtra("user") as User
+    }
+
+    private fun goToSelectedKanbanActivity(kanban: Kanban) {
+        val intent = Intent(this, SelectedKanbanActivity::class.java)
+        intent.putExtra("kanban", kanban.id)
+        startActivity(intent)
     }
 
     private fun setObserver() {
