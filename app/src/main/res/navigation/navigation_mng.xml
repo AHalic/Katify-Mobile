@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_mng"
+    app:startDestination="@layout/activity_kanbans_page">
+
+    <fragment
+        android:id="@+id/kanban_activity"
+        android:name="com.example.katify.view.KanbansPageActivity"
+        android:label="Product Details Host"
+        tools:layout="@layout/activity_kanbans_page">
+        <action
+            android:id="@+id/navigate_to_kanban"
+            app:destination="@id/selected_kanban_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selected_kanban_fragment"
+        android:name="com.example.katify.view.SelectedKanbanFragment"
+        android:label="Product List Fragment"
+        tools:layout="@layout/fragment_selected_kanban">
+        <argument android:name="kanban_id"
+            app:argType="integer" />
+    </fragment>
+
+
+</navigation>

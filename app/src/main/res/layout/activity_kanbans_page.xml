@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".view.KanbansPageActivity"
     android:background="@color/pink_gray_900"
+    android:name="androidx.navigation.fragment.NavHostFragment"
+    app:defaultNavHost="true"
+    app:navGraph="@navigation/navigation_mng"
     >
 
 <!--  Profile Icon  -->
@@ -87,6 +90,7 @@
 
 <!--  Add kanban button  -->
     <ImageButton
+        android:id="@+id/add_kanban_btn"
         android:layout_width="62dp"
         android:layout_height="48.71dp"
         android:src="@drawable/ic_cat_plus_button"
@@ -113,14 +117,17 @@
         android:background="@color/pink_gray_700"
         android:orientation="horizontal" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/kanbans_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        tools:listitem="@layout/card_kanban"
         app:layout_constraintTop_toBottomOf="@id/line_profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="10dp"
-        >
-        <include layout="@layout/kanban_content_view" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    >
+    </androidx.recyclerview.widget.RecyclerView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
