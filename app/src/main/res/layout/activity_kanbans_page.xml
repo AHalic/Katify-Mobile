@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".view.KanbansPageActivity"
     android:background="@color/pink_gray_900"
-    android:name="androidx.navigation.fragment.NavHostFragment"
-    app:defaultNavHost="true"
-    app:navGraph="@navigation/navigation_mng"
     >
 
 <!--  Profile Icon  -->
