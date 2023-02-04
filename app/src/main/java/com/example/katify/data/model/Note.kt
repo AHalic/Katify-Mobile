@@ -7,18 +7,17 @@ import androidx.room.*
         ForeignKey(entity = Kanban::class, parentColumns = ["id"], childColumns = ["kanban_id"])
     ]
 )
-class Note {
+data class Note (
+    @ColumnInfo(name="note_name")
+    var note_name: String = "",
 
+    @ColumnInfo(name="kanban_id")
+    var kanban_id: Int = 0,
+
+    @ColumnInfo(name="content")
+    var content : String = "",
+){
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name="id")
     var note_id: Int = 0
-
-    @ColumnInfo(name="note_name")
-    var note_name: String = ""
-
-    @ColumnInfo(name="kanban_id")
-    var kanban_id: Int = 0
-
-    @ColumnInfo(name="content")
-    var content : String = ""
 }

@@ -20,12 +20,12 @@ interface NoteDao {
     fun getKanbanNotes(id: Int): Flow<List<KanbanNotes>>
 
     @Insert
-    suspend fun saveNote(note: Note)
+    fun saveNote(note: Note):Long
 
     @Delete
-    suspend fun deleteNote(note: Note)
+    fun deleteNote(note: Note)
 
     @Update
-    suspend fun updateNote(note: Note)
+    fun updateNote(note: Note)
 
 }
