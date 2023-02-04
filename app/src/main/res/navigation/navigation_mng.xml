@@ -21,6 +21,9 @@
         <action
             android:id="@+id/navigate_to_note"
             app:destination="@id/note_fragment" />
+        <argument android:name="kanban_id"
+            app:argType="integer"
+            />
     </fragment>
 
 
