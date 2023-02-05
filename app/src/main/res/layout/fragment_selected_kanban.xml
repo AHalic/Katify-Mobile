@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/pink_gray_900"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
@@ -16,7 +17,7 @@
         app:layout_constraintVertical_bias="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/constraint_note_recycle"
+        app:layout_constraintBottom_toTopOf="@id/note_card_list"
         >
 
         <!--    Kanban name (editable)    -->
@@ -70,15 +71,14 @@
 <!--        android:orientation="horizontal" />-->
 
     <!--  Notes recycler view  -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_note_recycle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/selected_kanban_back_constraint"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:padding="15dp"
-        >
-        <include layout="@layout/note_content_view" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/note_card_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/selected_kanban_back_constraint"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:listitem="@layout/card_note">
+        </androidx.recyclerview.widget.RecyclerView>
 </androidx.constraintlayout.widget.ConstraintLayout>
