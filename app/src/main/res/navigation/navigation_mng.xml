@@ -5,14 +5,7 @@
     android:id="@+id/navigation_mng"
     app:startDestination="@id/selected_kanban_fragment">
 
-    <fragment
-        android:id="@+id/note_fragment"
-        android:name="com.example.katify.view.NoteFragment"
-        android:label="Note Fragment"
-        tools:layout="@layout/fragment_note">
-        <argument android:name="note_id"
-            app:argType="integer" />
-    </fragment>
+
     <fragment
         android:id="@+id/selected_kanban_fragment"
         android:name="com.example.katify.view.SelectedKanbanFragment"
@@ -20,10 +13,19 @@
         tools:layout="@layout/fragment_selected_kanban">
         <action
             android:id="@+id/navigate_to_note"
-            app:destination="@id/note_fragment" />
+            app:destination="@id/note_fragment"
+            app:popUpToInclusive="true"/>
         <argument android:name="kanban_id"
             app:argType="integer"
             />
+    </fragment>
+    <fragment
+        android:id="@+id/note_fragment"
+        android:name="com.example.katify.view.NoteFragment"
+        android:label="Note Fragment"
+        tools:layout="@layout/fragment_note">
+        <argument android:name="note_id"
+            app:argType="integer" />
     </fragment>
 
 
