@@ -27,13 +27,13 @@ class KanbanAdapter : RecyclerView.Adapter<KanbanViewHolder>() {
         return kanbanList.count()
     }
 
-    fun updateProdList(list: List<Kanban>) {
+    fun updateKanbanList(list: List<Kanban>) {
         kanbanList = list
         notifyDataSetChanged()
     }
 
-    fun setListener(productListener: OnKanbanListener) {
-        listener = productListener
+    fun setListener(kanbanListener: OnKanbanListener) {
+        listener = kanbanListener
     }
 
 }
