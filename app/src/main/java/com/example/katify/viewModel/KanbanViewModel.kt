@@ -2,7 +2,6 @@ package com.example.katify.viewModel
 
 import android.app.Application
 import android.database.sqlite.SQLiteConstraintException
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +15,7 @@ class KanbanViewModel(application: Application) : AndroidViewModel(application) 
     private var listMsg = MutableLiveData<Int>()
     private var addedMsg = MutableLiveData<Int>()
     private var updatedMsg = MutableLiveData<Int>()
+    private var deleteMsg = MutableLiveData<Int>()
     private var kanbanList = MutableLiveData<List<Kanban>>()
     private var kanban = MutableLiveData<Kanban>()
     private var kanbanName = MutableLiveData<String>()
@@ -23,6 +23,10 @@ class KanbanViewModel(application: Application) : AndroidViewModel(application) 
 
     fun getListMsg(): LiveData<Int> {
         return listMsg
+    }
+
+    fun getDeleteMsg(): LiveData<Int> {
+        return deleteMsg
     }
 
     fun getKanbanList(): LiveData<List<Kanban>> {
@@ -46,10 +50,8 @@ class KanbanViewModel(application: Application) : AndroidViewModel(application) 
         kanban.value = p
 
         val db = AppDatabase.getInstance(getApplication()).KanbanDao()
-        var resp = 0L
         return try {
-            resp = db.addKanban(p)
-            Log.w("RESP", "$resp")
+            db.addKanban(p)
             addedMsg.value = Constants.BD_MSGS.SUCCESS
         } catch (e: SQLiteConstraintException){
             addedMsg.value = Constants.BD_MSGS.CONSTRAINT
@@ -72,12 +74,8 @@ class KanbanViewModel(application: Application) : AndroidViewModel(application) 
         val db = AppDatabase.getInstance(getApplication()).KanbanDao()
         try {
             val resp = db.getKanbans(id)
-            if (resp == null) {
-                listMsg.value = Constants.BD_MSGS.NOT_FOUND
-            } else {
-                listMsg.value = Constants.BD_MSGS.SUCCESS
-                kanbanList.value = resp
-            }
+            listMsg.value = Constants.BD_MSGS.SUCCESS
+            kanbanList.value = resp
         } catch (e: Exception) {
             listMsg.value = Constants.BD_MSGS.FAIL
         }
@@ -87,15 +85,22 @@ class KanbanViewModel(application: Application) : AndroidViewModel(application) 
         val db = AppDatabase.getInstance(getApplication()).KanbanDao()
         try {
             val resp = db.getKanban(id)
-            if (resp == null) {
-                listMsg.value = Constants.BD_MSGS.NOT_FOUND
-            } else {
-                listMsg.value = Constants.BD_MSGS.SUCCESS
-                kanbanName.value = resp.name
-            }
+            listMsg.value = Constants.BD_MSGS.SUCCESS
+            kanbanName.value = resp.name
         } catch (e: Exception) {
             listMsg.value = Constants.BD_MSGS.FAIL
         }
     }
 
+    fun deleteKanbanAndNotes(kanban: Kanban) {
+        val db = AppDatabase.getInstance(getApplication()).KanbanDao()
+        val dbNotes = AppDatabase.getInstance(getApplication()).NoteDao()
+        return try {
+            dbNotes.deleteNotesFromKanban(kanban.id)
+            db.deleteKanban(kanban)
+            deleteMsg.value = Constants.BD_MSGS.SUCCESS
+        } catch (e: SQLiteConstraintException){
+            deleteMsg.value = Constants.BD_MSGS.CONSTRAINT
+        }
+    }
 }
