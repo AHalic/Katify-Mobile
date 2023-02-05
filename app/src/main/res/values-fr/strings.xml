@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Katify</string>
+    <!-- Strings related to login -->
+    <string name="katify_logo">Katify Logo</string>
+    <string name="login_page_text">Bienvenue, connectez-vous pour démarrer votre kanban!</string>
+    <string name="account_name_default">Nom de profil</string>
+    <string name="email_default">email@gmail.com</string>
+    <string name="add_kanban_button">Ajouter un Kanban</string>
+    <string name="profile_icon">Photo de profil</string>
+    <string name="kanban_name_default">Nouveau Kanban</string>
+    <string name="add_kanban_button_description">Ajouter un Kanban</string>
+    <string name="back_arrow_description">Afficher la page précédente</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</string>
+    <string name="new_note_default">Nouvelle note</string>
+    <string name="sign_in_google_btn">Se connecter avec Google</string>
+    <string name="success_search">Kanbans récupéré avec succès</string>
+    <string name="not_found_search">Impossible de trouver un kanban de cet utilisateur</string>
+    <string name="fail_search">Une erreur a été trouvée</string>
+    <string name="success_create">Kanban crée avec succès</string>
+    <string name="fail_create">Impossible de créer votre kanban :(</string>
+</resources>
