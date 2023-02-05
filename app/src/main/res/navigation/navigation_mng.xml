@@ -24,8 +24,8 @@
         android:name="com.example.katify.view.NoteFragment"
         android:label="Note Fragment"
         tools:layout="@layout/fragment_note">
-        <argument android:name="note_id"
-            app:argType="integer" />
+        <argument android:name="note"
+            app:argType="com.example.katify.data.model.Note" />
     </fragment>
 
 
