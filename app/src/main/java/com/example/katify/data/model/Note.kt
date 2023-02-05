@@ -1,6 +1,7 @@
 package com.example.katify.data.model
 
 import androidx.room.*
+import java.io.Serializable
 
 @Entity(tableName="note",
     foreignKeys = [
@@ -16,7 +17,7 @@ data class Note (
 
     @ColumnInfo(name="content")
     var content : String = "",
-){
+) : Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name="id")
     var note_id: Int = 0
