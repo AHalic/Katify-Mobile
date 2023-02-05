@@ -10,7 +10,7 @@ import com.example.katify.view.viewHolder.KanbanViewHolder
 
 class KanbanAdapter : RecyclerView.Adapter<KanbanViewHolder>() {
 
-    private var kanbanList: List<Kanban> = listOf()
+    var kanbanList: List<Kanban> = listOf()
     private lateinit var listener: OnKanbanListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KanbanViewHolder {
