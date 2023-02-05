@@ -1,60 +1,57 @@
 package com.example.katify.view
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.katify.R
+import com.example.katify.databinding.FragmentNoteBinding
+import com.example.katify.databinding.FragmentSelectedKanbanBinding
+import com.example.katify.databinding.NoteContentViewBinding
+import com.example.katify.view.adapter.NoteAdapter
+import com.example.katify.viewModel.KanbanViewModel
+import com.example.katify.viewModel.NoteViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SelectedKanbanFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class NoteFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+class NoteFragment : Fragment(R.layout.fragment_note), View.OnClickListener {
+    private var _binding: FragmentNoteBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var noteVM: NoteViewModel
+    val args: NoteFragmentArgs by navArgs()
+    private lateinit var contextFrg: Context
+    lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_note, container, false)
+        _binding = FragmentNoteBinding.inflate(inflater, container, false)
+        noteVM = ViewModelProvider(requireActivity())[NoteViewModel::class.java]
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SelectedKanbanFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            NoteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onClick(view: View) {
+        if (view.id == R.id.back_arrow) {
+            findNavController().popBackStack()
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        contextFrg = context
+        super.onAttach(contextFrg)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
