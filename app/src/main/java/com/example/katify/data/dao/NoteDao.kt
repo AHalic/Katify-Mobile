@@ -2,9 +2,7 @@ package com.example.katify.data.dao
 
 import androidx.room.*
 import com.example.katify.data.model.Kanban
-import com.example.katify.data.model.KanbanNotes
 import com.example.katify.data.model.Note
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoteDao {
@@ -24,6 +22,9 @@ interface NoteDao {
 
     @Delete
     fun deleteNote(note: Note)
+
+    @Query("DELETE FROM note WHERE kanban_id == :id")
+    fun deleteNotesFromKanban(id: Int)
 
     @Query("UPDATE note SET note_name = :name WHERE id =:id")
     fun updateNoteName(name: String?, id: Int)
