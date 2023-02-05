@@ -32,42 +32,7 @@
 
             android:contentDescription="@string/back_arrow_description"
             />
-<!--app:layout_constraintBottom_toTopOf="@id/kanban_name_input"-->
-<!--        &lt;!&ndash;    Kanban name (editable)    &ndash;&gt;-->
-<!--        <EditText-->
-<!--            android:id="@+id/kanban_name_input"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="@string/kanban_name_default"-->
-<!--            android:textColor="@color/white_900"-->
-<!--            android:fontFamily="@font/inter_light"-->
-<!--            android:textStyle="bold"-->
-<!--            android:textSize="32sp"-->
-<!--            android:inputType="text"-->
-<!--            android:layout_marginStart="15dp"-->
-<!--            app:layout_constraintHorizontal_bias="0"-->
-<!--            android:backgroundTint="@android:color/transparent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/back_arrow"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            />-->
 
-<!--&lt;!&ndash;    Add new kanban btn    &ndash;&gt;-->
-<!--        <ImageButton-->
-<!--            android:id="@+id/add_note_btn"-->
-<!--            android:layout_width="48dp"-->
-<!--            android:layout_height="48dp"-->
-<!--            android:src="@drawable/ic_baseline_add_24"-->
-<!--            android:backgroundTint="@android:color/transparent"-->
-<!--            app:layout_constraintHorizontal_bias="1"-->
-<!--            android:layout_marginEnd="15dp"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/back_arrow"-->
-<!--            app:layout_constraintStart_toEndOf="@id/kanban_name_input"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            android:contentDescription="@string/add_kanban_button_description"-->
-<!--            />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -75,7 +40,7 @@
         android:id="@+id/fragment_container_view"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,15 +50,4 @@
         app:navGraph="@navigation/navigation_mng"
      />
 
-<!--&lt;!&ndash;  Notes recycler view  &ndash;&gt;-->
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/selected_kanban_info"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        android:padding="15dp"-->
-<!--        >-->
-<!--        <include layout="@layout/note_content_view" />-->
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
