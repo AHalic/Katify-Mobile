@@ -25,7 +25,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="success_search">Kanbans successfully retrieved</string>
     <string name="not_found_search">Couldn\'t find any kanban from this user</string>
-    <string name="fail_search">Couldn\'t retrieve the data</string>
+    <string name="fail_search">An error occurred</string>
     <string name="success_create">Kanban successfully created</string>
     <string name="fail_create">Couldn\'t create your kanban :(</string>
 </resources>
