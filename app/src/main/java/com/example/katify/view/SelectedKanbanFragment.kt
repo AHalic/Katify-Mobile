@@ -1,11 +1,9 @@
 package com.example.katify.view
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +12,13 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.katify.R
 import com.example.katify.data.model.Note
 import com.example.katify.databinding.FragmentSelectedKanbanBinding
@@ -28,24 +27,18 @@ import com.example.katify.view.adapter.NoteAdapter
 import com.example.katify.view.listener.OnNoteListener
 import com.example.katify.viewModel.KanbanViewModel
 import com.example.katify.viewModel.NoteViewModel
-import javax.security.auth.callback.Callback
 
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SelectedKanbanFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class SelectedKanbanFragment : Fragment(R.layout.fragment_selected_kanban), View.OnClickListener {
     private var _binding: FragmentSelectedKanbanBinding? = null
     private val binding get() = _binding!!
     private lateinit var noteVM: NoteViewModel
     private lateinit var kanbanVM: KanbanViewModel
-    val args: SelectedKanbanFragmentArgs by navArgs()
+    private val args: SelectedKanbanFragmentArgs by navArgs()
     private lateinit var contextFrg: Context
     private val adapter = NoteAdapter()
-    lateinit var navController: NavController
-    private lateinit var kanbanName: String
+    private lateinit var navController: NavController
 
 
     override fun onCreateView(
@@ -66,6 +59,7 @@ class SelectedKanbanFragment : Fragment(R.layout.fragment_selected_kanban), View
 
         binding.addNoteBtn.setOnClickListener(this)
 
+        // Adds listener to update kanban name
         binding.kanbanNameInput.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {}
@@ -79,6 +73,34 @@ class SelectedKanbanFragment : Fragment(R.layout.fragment_selected_kanban), View
                 kanbanVM.updateKanban(id, s.toString())
             }
         })
+
+        // Defines swipe card to delete callback
+        val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
+            ItemTouchHelper.SimpleCallback(
+                0,
+                ItemTouchHelper.LEFT
+            ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+                //Remove swiped item from list and notify the RecyclerView
+                val position = viewHolder.absoluteAdapterPosition
+                noteVM.deleteNote(adapter.noteList[position])
+
+                val id = requireArguments().getInt("kanban_id")
+                noteVM.getAllNotesOfKanban(id)
+                adapter.notifyItemRemoved(position)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
+        itemTouchHelper.attachToRecyclerView(binding.noteCardList)
 
         return binding.root
     }
@@ -95,7 +117,7 @@ class SelectedKanbanFragment : Fragment(R.layout.fragment_selected_kanban), View
         val listener = object : OnNoteListener {
             override fun onClick(note: Note) {
 
-                val bundle = bundleOf("note_id" to note.note_id)
+                val bundle = bundleOf("note" to note)
                 parentFragmentManager.commit {
                     setReorderingAllowed(true)
                     add<NoteFragment>(R.id.fragment_container_view, args=bundle)
@@ -121,22 +143,40 @@ class SelectedKanbanFragment : Fragment(R.layout.fragment_selected_kanban), View
     }
 
     private fun setObserver() {
-        noteVM.getIsAdded().observe(viewLifecycleOwner, Observer {
-            if (it == Constants.BD_MSGS.SUCCESS){
-                val id = requireArguments().getInt("kanban_id")
-                noteVM.getAllNotesOfKanban(id)
-            } else if (it == Constants.BD_MSGS.CONSTRAINT){
+        noteVM.getListMsg().observe(viewLifecycleOwner) {
+            if (it == Constants.BD_MSGS.CONSTRAINT) {
                 Toast.makeText(contextFrg, R.string.fail_search, Toast.LENGTH_SHORT).show()
             }
-        })
+        }
 
-        noteVM.getNoteList().observe(viewLifecycleOwner, Observer {
+        noteVM.getIsAdded().observe(viewLifecycleOwner) {
+            if (it == Constants.BD_MSGS.SUCCESS) {
+                val id = requireArguments().getInt("kanban_id")
+                noteVM.getAllNotesOfKanban(id)
+            } else if (it == Constants.BD_MSGS.CONSTRAINT) {
+                Toast.makeText(contextFrg, R.string.fail_search, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        noteVM.getNoteList().observe(viewLifecycleOwner) {
             adapter.updateNoteList(it)
-        })
+        }
 
-        kanbanVM.getKanbanName().observe(viewLifecycleOwner, Observer {
+        kanbanVM.getKanbanName().observe(viewLifecycleOwner) {
             binding.kanbanNameInput.setText(it)
-        })
+        }
+
+        kanbanVM.getIsUpdated().observe(viewLifecycleOwner) {
+            if (it == Constants.BD_MSGS.CONSTRAINT) {
+                Toast.makeText(contextFrg, R.string.fail_search, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        noteVM.getDeleteMsg().observe(viewLifecycleOwner) {
+            if (it == Constants.BD_MSGS.CONSTRAINT) {
+                Toast.makeText(contextFrg, R.string.fail_search, Toast.LENGTH_SHORT).show()
+            }
+        }
 
     }
 }

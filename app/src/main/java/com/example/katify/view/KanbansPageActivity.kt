@@ -3,14 +3,13 @@ package com.example.katify.view
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.katify.R
 import com.example.katify.data.model.Kanban
 import com.example.katify.data.model.User
@@ -25,14 +24,15 @@ import com.squareup.picasso.Picasso
 class KanbansPageActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding : ActivityKanbansPageBinding
     private lateinit var user : User
-    lateinit var listVM: KanbanViewModel
+    lateinit var kanbanVM: KanbanViewModel
     private val adapter = KanbanAdapter()
-    lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityKanbansPageBinding.inflate(layoutInflater)
+        kanbanVM = ViewModelProvider(this)[KanbanViewModel::class.java]
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         user = getUserFromIntent()
 
@@ -42,7 +42,6 @@ class KanbansPageActivity : AppCompatActivity(), View.OnClickListener {
 
         // Gets user's google pic
         Picasso.get().load(Uri.parse(user.urlImage)).into(binding.iconImage)
-        Log.w("icon", user.urlImage)
 
         // Recycler View config
         binding.kanbansRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -54,28 +53,48 @@ class KanbansPageActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
         adapter.setListener(listener)
-
-
-        listVM = ViewModelProvider(this).get(KanbanViewModel::class.java)
-
-        supportActionBar?.hide()
-
         setObserver()
 
         binding.addKanbanBtn.setOnClickListener(this)
+
+        // Defines swipe card to delete callback
+        val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
+            ItemTouchHelper.SimpleCallback(
+                0,
+                ItemTouchHelper.LEFT
+            ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+                // Remove swiped item from list and all its related and notify the RecyclerView
+                val position = viewHolder.absoluteAdapterPosition
+                kanbanVM.deleteKanbanAndNotes(adapter.kanbanList[position])
+                kanbanVM.getAllKanbansOfOwner(user.userId)
+                adapter.notifyItemRemoved(position)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(simpleItemTouchCallback)
+        itemTouchHelper.attachToRecyclerView(binding.kanbansRecyclerView)
 
     }
 
     override fun onStart() {
         super.onStart()
 
-        listVM.getAllKanbansOfOwner(user.userId)
+        kanbanVM.getAllKanbansOfOwner(user.userId)
 
     }
 
     override fun onClick(view: View) {
         if (view.id == R.id.add_kanban_btn) {
-            listVM.addKanban(user.userId, resources.getString(R.string.kanban_name_default))
+            kanbanVM.addKanban(user.userId, resources.getString(R.string.kanban_name_default))
         }
     }
 
@@ -90,25 +109,30 @@ class KanbansPageActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setObserver() {
-        listVM.getListMsg().observe(this, Observer {
-            if (it == Constants.BD_MSGS.NOT_FOUND){
+        kanbanVM.getListMsg().observe(this) {
+            if (it == Constants.BD_MSGS.NOT_FOUND) {
                 Toast.makeText(this, R.string.not_found_search, Toast.LENGTH_SHORT).show()
             } else if (it == Constants.BD_MSGS.FAIL) {
                 Toast.makeText(this, R.string.fail_search, Toast.LENGTH_SHORT).show()
             }
-        })
+        }
 
-        listVM.getKanbanList().observe(this, Observer {
+        kanbanVM.getKanbanList().observe(this) {
             adapter.updateKanbanList(it)
-        })
+        }
 
-        listVM.getIsAdded().observe(this, Observer {
-            if (it == Constants.BD_MSGS.SUCCESS){
-                listVM.getAllKanbansOfOwner(user.userId)
-            } else if (it == Constants.BD_MSGS.CONSTRAINT){
+        kanbanVM.getIsAdded().observe(this) {
+            if (it == Constants.BD_MSGS.SUCCESS) {
+                kanbanVM.getAllKanbansOfOwner(user.userId)
+            } else if (it == Constants.BD_MSGS.CONSTRAINT) {
                 Toast.makeText(this, R.string.fail_search, Toast.LENGTH_SHORT).show()
             }
-        })
+        }
 
+        kanbanVM.getDeleteMsg().observe(this) {
+            if (it == Constants.BD_MSGS.CONSTRAINT) {
+                Toast.makeText(this, R.string.fail_search, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
