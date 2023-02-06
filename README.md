@@ -5,6 +5,9 @@ The app was developped to help people organize their tasks.
 
 ## Screens
 
+<p align="center">
+<img src="assets/katify-mobile.png"  width="60%" height="30%">
+</p>
 
 ## Features
 The features implemented are listed bellow:
