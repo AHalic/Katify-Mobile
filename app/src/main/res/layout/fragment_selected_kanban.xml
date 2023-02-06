@@ -29,6 +29,7 @@
             android:textColor="@color/white_900"
             android:fontFamily="@font/inter_light"
             android:textStyle="bold"
+            android:textCursorDrawable="@null"
             android:textSize="32sp"
             android:inputType="text"
             android:layout_marginStart="15dp"
