@@ -11,6 +11,16 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.katify.R
 import com.example.katify.databinding.ActivitySelectedKanbanBinding
 
+/**
+ *
+ * Class that inflates the [R.layout.activity_selected_kanban] layout
+ *
+ * This is the activity on which the fragments [NoteFragment]
+ * and [SelectedKanbanFragment] are attached
+ *
+ * Inherits [AppCompatActivity] and implements [View.OnClickListener]
+ *
+ */
 class SelectedKanbanActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding : ActivitySelectedKanbanBinding
     private var kanban : Int = -1
@@ -26,6 +36,7 @@ class SelectedKanbanActivity : AppCompatActivity(), View.OnClickListener {
 
         val bundle = bundleOf("kanban_id" to kanban)
 
+        // Navigates to selected fragment
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             add<SelectedKanbanFragment>(R.id.fragment_container_view, args=bundle)
@@ -43,6 +54,11 @@ class SelectedKanbanActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    /**
+     * Gets id of the kanban selected from the intent that started this activity
+     *
+     * @return kanban id
+     */
     private fun getKanbanFromIntent(): Int {
         return intent.getSerializableExtra("kanban") as Int
     }

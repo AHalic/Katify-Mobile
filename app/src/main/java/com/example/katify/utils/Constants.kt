@@ -1,5 +1,8 @@
 package com.example.katify.utils
 
+/**
+ * Class with the response messages
+ */
 class Constants {
 
     object BD_MSGS {

@@ -24,13 +24,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.NoteActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".view.SelectedKanbanActivity"
             android:exported="false">
             <meta-data

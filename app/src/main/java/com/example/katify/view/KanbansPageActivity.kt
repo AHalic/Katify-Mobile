@@ -20,7 +20,15 @@ import com.example.katify.view.listener.OnKanbanListener
 import com.example.katify.viewModel.KanbanViewModel
 import com.squareup.picasso.Picasso
 
-
+/**
+ *
+ * Class that inflates the [R.layout.activity_kanbans_page] layout
+ *
+ * This is the activity on which the kanbans are listed
+ *
+ * Inherits [AppCompatActivity] and implements [View.OnClickListener]
+ *
+ */
 class KanbansPageActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding : ActivityKanbansPageBinding
     private lateinit var user : User
@@ -71,6 +79,12 @@ class KanbansPageActivity : AppCompatActivity(), View.OnClickListener {
                 return false
             }
 
+            /**
+             * OnSwiped delete kanban and its cards
+             *
+             * @param viewHolder
+             * @param swipeDir
+             */
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                 // Remove swiped item from list and all its related and notify the RecyclerView
                 val position = viewHolder.absoluteAdapterPosition
@@ -98,16 +112,29 @@ class KanbansPageActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    /**
+     * Gets data of the logged user from the intent that started this activity
+     *
+     * @return User logged
+     */
     private fun getUserFromIntent(): User {
         return intent.getSerializableExtra("user") as User
     }
 
+    /**
+     * Starts the [SelectedKanbanActivity] activity, passing the kanban selected
+     *
+     * @param kanban card clicked
+     */
     private fun goToSelectedKanbanActivity(kanban: Kanban) {
         val intent = Intent(this, SelectedKanbanActivity::class.java)
         intent.putExtra("kanban", kanban.id)
         startActivity(intent)
     }
 
+    /**
+     * Sets observers to [kanbanVM] message getters
+     */
     private fun setObserver() {
         kanbanVM.getListMsg().observe(this) {
             if (it == Constants.BD_MSGS.NOT_FOUND) {

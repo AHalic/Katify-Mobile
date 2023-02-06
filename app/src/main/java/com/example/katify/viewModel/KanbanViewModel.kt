@@ -10,6 +10,14 @@ import com.example.katify.data.room.AppDatabase
 import com.example.katify.utils.Constants
 import java.lang.Exception
 
+
+/**
+ * This class interacts with the [Kanban] entity
+ *
+ * Inherits [AndroidViewModel]
+ *
+ * @property application
+ */
 class KanbanViewModel(application: Application) : AndroidViewModel(application) {
 
     private var listMsg = MutableLiveData<Int>()
@@ -21,30 +29,64 @@ class KanbanViewModel(application: Application) : AndroidViewModel(application) 
     private var kanbanName = MutableLiveData<String>()
 
 
+    /**
+     * Gets response of the db interaction at [getAllKanbansOfOwner]
+     *
+     * @return message of success or failure
+     */
     fun getListMsg(): LiveData<Int> {
         return listMsg
     }
 
+    /**
+     * Gets response of the db interaction at [deleteKanbanAndNotes]
+     *
+     * @return message of success or failure
+     */
     fun getDeleteMsg(): LiveData<Int> {
         return deleteMsg
     }
 
+    /**
+     * Gets response to the db interaction at [getAllKanbansOfOwner]
+     *
+     * @return list of [Kanban]
+     */
     fun getKanbanList(): LiveData<List<Kanban>> {
         return kanbanList
     }
 
+    /**
+     * Gets response to the db interaction at [getKanban]
+     *
+     * @return [Kanban.name]
+     */
     fun getKanbanName(): LiveData<String> {
         return kanbanName
     }
 
+    /**
+     * Gets response of the db interaction at [addKanban]
+     *
+     * @return message of success or failure
+     */
     fun getIsAdded(): LiveData<Int> {
         return addedMsg
     }
 
+    /**
+     * Gets response of the db interaction at [updateKanban]
+     *
+     * @return message of success or failure
+     */
     fun getIsUpdated(): LiveData<Int> {
         return updatedMsg
     }
 
+    /**
+     * Adds [Kanban] with [name] of owner with [id] to the db
+     *
+     */
     fun addKanban(id:String, name:String) {
         val p = Kanban(owner_id=id, name = name)
         kanban.value = p
@@ -59,6 +101,10 @@ class KanbanViewModel(application: Application) : AndroidViewModel(application) 
 
     }
 
+    /**
+     * Updates [Kanban.name] of [id] to [name] in the db
+     *
+     */
     fun updateKanban(id:Int, name:String?) {
         val db = AppDatabase.getInstance(getApplication()).KanbanDao()
         return try {
@@ -70,6 +116,10 @@ class KanbanViewModel(application: Application) : AndroidViewModel(application) 
 
     }
 
+    /**
+     * Gets list of [Kanban] of owner with [id] from the db
+     *
+     */
     fun getAllKanbansOfOwner(id: String) {
         val db = AppDatabase.getInstance(getApplication()).KanbanDao()
         try {
@@ -81,6 +131,10 @@ class KanbanViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    /**
+     * Gets [Kanban] of [id] from the db
+     *
+     */
     fun getKanban(id: Int) {
         val db = AppDatabase.getInstance(getApplication()).KanbanDao()
         try {
@@ -92,6 +146,10 @@ class KanbanViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    /**
+     * Deletes [kanban] from the db and all its notes
+     *
+     */
     fun deleteKanbanAndNotes(kanban: Kanban) {
         val db = AppDatabase.getInstance(getApplication()).KanbanDao()
         val dbNotes = AppDatabase.getInstance(getApplication()).NoteDao()

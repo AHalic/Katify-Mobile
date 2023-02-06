@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -16,6 +17,15 @@ import com.example.katify.databinding.FragmentNoteBinding
 import com.example.katify.utils.Constants
 import com.example.katify.viewModel.NoteViewModel
 
+/**
+ *
+ * Class that inflates the [R.layout.fragment_note] layout
+ *
+ * This is the note fragment, where it's description and name are shown
+ *
+ * Inherits [Fragment]
+ *
+ */
 class NoteFragment : Fragment(R.layout.fragment_note) {
     private var _binding: FragmentNoteBinding? = null
     private val binding get() = _binding!!
@@ -38,6 +48,7 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
         binding.noteText.setText(args.note.content)
         binding.noteNameInput.setText(args.note.note_name)
 
+        // Defines de note name on change listener to update it on the db
         binding.noteNameInput.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {}
@@ -51,6 +62,7 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
             }
         })
 
+        // Defines de note description on change listener to update it on the db
         binding.noteText.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {}
@@ -67,6 +79,9 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
         return binding.root
     }
 
+    /**
+     * Gets activity to which the fragment its attached context
+     */
     override fun onAttach(context: Context) {
         contextFrg = context
         super.onAttach(contextFrg)
@@ -77,6 +92,9 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
         _binding = null
     }
 
+    /**
+     * Sets observers to [noteVM] message getters
+     */
     private fun setObserver() {
         noteVM.getIsDescUpdated().observe(viewLifecycleOwner) {
             if (it == Constants.BD_MSGS.CONSTRAINT) {

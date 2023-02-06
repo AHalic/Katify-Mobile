@@ -15,7 +15,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 
-
+/**
+ *
+ * This activity is the entrypoint of the app, and its responsible for
+ * searching if the user has already signed in the app
+ *
+ * Inherits [AppCompatActivity]
+ *
+ */
 class SplashActivity : AppCompatActivity() {
     private lateinit var loginVM: LoginViewModel
 
@@ -41,6 +48,10 @@ class SplashActivity : AppCompatActivity() {
         checkIfUserHasAlreadyLogged()
     }
 
+    /**
+     * Check if the user has already signed, if so gets credentials,
+     * else call [goToLoginActivity]
+     */
     private fun checkIfUserHasAlreadyLogged() {
         val account = GoogleSignIn.getLastSignedInAccount(this)
 
@@ -51,18 +62,26 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Starts [LoginActivity] activity
+     */
     private fun goToLoginActivity() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
     }
 
-
+    /**
+     * Get [googleSignInAccount] credentials
+     */
     private fun getGoogleAuthCredential(googleSignInAccount: GoogleSignInAccount) {
         val googleTokenId = googleSignInAccount.idToken
         val googleAuthCredential = GoogleAuthProvider.getCredential(googleTokenId, null)
         signInWithGoogleAuthCredential(googleAuthCredential)
     }
 
+    /**
+     * Gets authenticated user and calls [goToKanbansActivity]
+     */
     private fun signInWithGoogleAuthCredential(googleAuthCredential: AuthCredential) {
         loginVM.signInWithGoogle(googleAuthCredential)
         loginVM.authenticatedUserLiveData.observe(this) { authenticatedUser ->
@@ -71,7 +90,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     /**
-     * Starts the Kanban Activity passing the [user] to it
+     * Starts [KanbansPageActivity] activity, passing [user] to it
      */
     private fun goToKanbansActivity(user: User) {
         val intent = Intent(this, KanbansPageActivity::class.java)

@@ -12,12 +12,19 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
-
+/**
+ * This class deals with the login to the firebase
+ */
 internal class LoginRepository {
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val rootRef: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val usersRef: CollectionReference = rootRef.collection("users")
 
+    /**
+     * Gets [googleAuthCredential] and creates [User], if new [User.isNew] == true
+     *
+     * @return user created
+     */
     fun firebaseSignInWithGoogle(googleAuthCredential: AuthCredential?): MutableLiveData<User> {
         val authenticatedUserMutableLiveData = MutableLiveData<User>()
 
@@ -48,6 +55,11 @@ internal class LoginRepository {
         return authenticatedUserMutableLiveData
     }
 
+    /**
+     * Creates [authenticatedUser] in firebase
+     *
+     * @return user created
+     */
     fun createUserInFirestoreIfNotExists(authenticatedUser: User): MutableLiveData<User> {
         val newUserMutableLiveData = MutableLiveData<User>()
         val uidRef: DocumentReference = usersRef.document(authenticatedUser.userId)

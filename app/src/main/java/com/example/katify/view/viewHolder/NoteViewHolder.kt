@@ -6,6 +6,14 @@ import com.example.katify.databinding.CardNoteBinding
 import com.example.katify.view.listener.OnNoteListener
 import kotlin.math.min
 
+/**
+ * This class represents and individual note card
+ *
+ * Inherits [RecyclerView.ViewHolder]
+ *
+ * @param listener custom onClickListener
+ * @param binding
+ */
 class NoteViewHolder(private val binding: CardNoteBinding, private val listener: OnNoteListener) : RecyclerView.ViewHolder(binding.root) {
 
     fun bindVH(note: Note){

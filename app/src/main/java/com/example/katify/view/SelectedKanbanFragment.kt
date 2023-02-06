@@ -29,7 +29,15 @@ import com.example.katify.viewModel.KanbanViewModel
 import com.example.katify.viewModel.NoteViewModel
 
 
-
+/**
+ *
+ * Class that inflates the [R.layout.fragment_selected_kanban] layout
+ *
+ * This is the selected kanban fragment, where the kanbans notes are listed
+ *
+ * Inherits [Fragment] and implements [View.OnClickListener]
+ *
+ */
 class SelectedKanbanFragment : Fragment(R.layout.fragment_selected_kanban), View.OnClickListener {
     private var _binding: FragmentSelectedKanbanBinding? = null
     private val binding get() = _binding!!
@@ -88,6 +96,12 @@ class SelectedKanbanFragment : Fragment(R.layout.fragment_selected_kanban), View
                 return false
             }
 
+            /**
+             * OnSwiped delete kanban and its cards
+             *
+             * @param viewHolder
+             * @param swipeDir
+             */
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
                 //Remove swiped item from list and notify the RecyclerView
                 val position = viewHolder.absoluteAdapterPosition
@@ -105,12 +119,18 @@ class SelectedKanbanFragment : Fragment(R.layout.fragment_selected_kanban), View
         return binding.root
     }
 
+    /**
+     * Gets kanban id and sets listener to navigate to [NoteFragment] when card clicked
+     *
+     * @param view
+     * @param savedInstanceState
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Gets this kanban id
         val id = requireArguments().getInt("kanban_id")
         noteVM.getAllNotesOfKanban(id)
-
         kanbanVM.getKanban(id)
 
         navController = findNavController()
@@ -137,11 +157,18 @@ class SelectedKanbanFragment : Fragment(R.layout.fragment_selected_kanban), View
         super.onDestroyView()
         _binding = null
     }
+
+    /**
+     * Gets activity to which the fragment its attached context
+     */
     override fun onAttach(context: Context) {
         contextFrg = context
         super.onAttach(contextFrg)
     }
 
+    /**
+     * Sets observers to [noteVM] and [kanbanVM] message getters
+     */
     private fun setObserver() {
         noteVM.getListMsg().observe(viewLifecycleOwner) {
             if (it == Constants.BD_MSGS.CONSTRAINT) {

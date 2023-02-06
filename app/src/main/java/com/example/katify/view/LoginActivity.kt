@@ -22,6 +22,15 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 
 
+/**
+ *
+ * Class that inflates the [R.layout.activity_login] layout
+ *
+ * This activity only appears at the first opening, and it's where the user can log to the app
+ *
+ * Inherits [AppCompatActivity] and implements [View.OnClickListener]
+ *
+ */
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding : ActivityLoginBinding
     private lateinit var loginVM: LoginViewModel
@@ -36,6 +45,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
         supportActionBar?.hide()
 
+        // Defines google sign in
         val gso: GoogleSignInOptions = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -55,12 +65,16 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    fun openSomeActivityForResult() {
+    /**
+     * Gets google sign in intent, from  which is taken the account logged
+     * Finally, a new activity is started passing the user
+     */
+    private fun openSomeActivityForResult() {
         val signInIntent = mGoogleSignInClient.signInIntent
         resultLauncher.launch(signInIntent)
     }
 
-    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             // There are no request codes
             val data: Intent? = result.data
@@ -71,6 +85,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
+    /**
+     * Get account result from [completedTask]
+     */
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
@@ -86,12 +103,19 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
+    /**
+     * Get [googleSignInAccount] credentials
+     */
     private fun getGoogleAuthCredential(googleSignInAccount: GoogleSignInAccount) {
         val googleTokenId = googleSignInAccount.idToken
         val googleAuthCredential = GoogleAuthProvider.getCredential(googleTokenId, null)
         signInWithGoogleAuthCredential(googleAuthCredential)
     }
 
+    /**
+     * If [googleAuthCredential] never signed, calls [createNewUser]
+     * else calls [goToKanbansActivity]
+     */
     private fun signInWithGoogleAuthCredential(googleAuthCredential: AuthCredential) {
         loginVM.signInWithGoogle(googleAuthCredential)
         loginVM.authenticatedUserLiveData.observe(this) { authenticatedUser ->
@@ -103,6 +127,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    /**
+     * Create a new [authenticatedUser] in the firebase
+     */
     private fun createNewUser(authenticatedUser: User) {
         loginVM.createUser(authenticatedUser)
         loginVM.createdUserLiveData.observe(this) { user ->
@@ -112,6 +139,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    /**
+     * Starts [KanbansPageActivity] activity, passing [user] to it
+     */
     private fun goToKanbansActivity(user: User) {
         val intent = Intent(this, KanbansPageActivity::class.java)
         intent.putExtra("user", user)

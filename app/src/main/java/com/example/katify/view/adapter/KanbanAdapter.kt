@@ -8,6 +8,11 @@ import com.example.katify.databinding.CardKanbanBinding
 import com.example.katify.view.listener.OnKanbanListener
 import com.example.katify.view.viewHolder.KanbanViewHolder
 
+/**
+ * This class implements the adapter of the kanbans recycler view
+ *
+ * Inherits [RecyclerView.Adapter]
+ */
 class KanbanAdapter : RecyclerView.Adapter<KanbanViewHolder>() {
 
     var kanbanList: List<Kanban> = listOf()
@@ -27,11 +32,17 @@ class KanbanAdapter : RecyclerView.Adapter<KanbanViewHolder>() {
         return kanbanList.count()
     }
 
+    /**
+     * Updates list of [Kanban] of the view to [list]
+     */
     fun updateKanbanList(list: List<Kanban>) {
         kanbanList = list
         notifyDataSetChanged()
     }
 
+    /**
+     * Set onClick listener to [kanbanListener]
+     */
     fun setListener(kanbanListener: OnKanbanListener) {
         listener = kanbanListener
     }
